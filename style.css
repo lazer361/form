@@ -1,0 +1,95 @@
+/*-------------------------------*/
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background-color: #F1F3F4;
+}
+
+/*--------------Form-----------------*/
+
+form {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+    padding: 40px;
+    border-radius: 6px;
+    background-color: white;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+input, button {
+    padding: 10px 8px;
+    margin-bottom: 15px;
+    border: 1px solid #D8DADB;
+    border-radius: 6px;
+}
+
+button {
+    border: none;
+    color: white;
+    background-color: #4285F4;
+}
+
+/*--------------Output-----------------*/
+
+.output {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+    padding: 40px;
+    border-radius: 6px;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.error, .warning {
+    padding: 10px;
+    color: #B75B6B;
+    background-color: #EAD7D7;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+
+/*-----*/
+
+h4  {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+.info {
+    margin-bottom: 10px;
+}
+
+.info span {
+    font-weight: bold;
+}
+
+/*-----*/
+
+.warning {
+    color: #785A04;
+    background-color: #FFF3CD;
+    margin: 0;
+}
