@@ -1,14 +1,32 @@
 <?php
+$errorMessages = array();
+
+function checkNumbers($input, $text) {
+    global $errorMessages;
+
+    if(preg_match('/[0-9]+/i', $input)) {
+        array_push($errorMessages, "Поле $text не должно содержать цифры !");
+    }
+}
+
+function checkLong($input, $min, $text) {
+    global $errorMessages;
+
+    if(strlen($input) < $min) {
+        array_push($errorMessages, "Поле $text слишком короткий !");
+    }
+}
 
 function valid($post) {
+
+    global $errorMessages;
+
    $name = $post['name'];
    $surname = $post['surname'];
    $login = $post['login'];
    $pass = $post['pass'];
 
-   $error_messages = array();
-
-   $min_long = array(
+   $minLong = array(
        "login" => 5,
         "pass" => 8,
    );
@@ -16,47 +34,36 @@ function valid($post) {
 
    if(!empty($name) && !empty($surname) && !empty($login) && !empty($pass)) {
 
-       if(preg_match('/[0-9]+/i', $name)) {
-           array_push($error_messages, "Поле Имя не должно содержать цифры !");
-       }
-       if(preg_match('/[0-9]+/i', $surname)){
-           array_push($error_messages, "Поле Фамилия не должно содержать цифры !");
-       }
+       checkNumbers($name, 'Имя');
+       checkNumbers($surname, 'Фамилия');
 
-       if(strlen($login) < $min_long["login"]) {
-           array_push($error_messages, "Поле Логин слишком короткий !");
-       }
+       checkLong($login, $minLong["login"], 'Логин');
+       checkLong($pass, $minLong["pass"], 'Пароль');
 
-       if(strlen($pass) < $min_long["pass"]) {
-           array_push($error_messages, "Поле Пароль слишком короткий !");
-       }
-
-       if(!empty($error_messages)){ ?>
-           <div class="output"><?
-               foreach ($error_messages as $element) {?>
+       if(!empty($errorMessages)){ ?>
+           <div class="output">
+               <? foreach ($errorMessages as $element) { ?>
                    <div class="error">
-                       <? echo $element; ?>
+                       <?= $element; ?>
                    </div>
-               <?}?>
+               <? } ?>
            </div>
-           <?
-       }else {?>
+       <? } else { ?>
+
            <div class="output">
                <h4>Вы успешно прошли валидацию</h4>
-               <div class="info"><span>Ваше имя:</span> <? echo $name; ?></div>
-               <div class="info"><span>Ваша фамилия:</span> <? echo $surname; ?></div>
-               <div class="info"><span>Ваш логин:</span> <? echo $login; ?></div>
-               <div class="info"><span>Ваш пароль:</span> <? echo $pass; ?></div>
+               <div class="info"><span>Ваше имя:</span> <?= $name; ?></div>
+               <div class="info"><span>Ваша фамилия:</span> <?= $surname; ?></div>
+               <div class="info"><span>Ваш логин:</span> <?= $login; ?></div>
+               <div class="info"><span>Ваш пароль:</span> <?= $pass; ?></div>
            </div>
-           <?php
-       }
+       <?php } ?>
 
-   }else { ?>
+   <?php }else { ?>
        <div class="output">
            <div class="warning">Заполнение всех полей обязательно!</div>
        </div>
    <?php }
-}
- ?>
+}?>
 
 
