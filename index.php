@@ -14,11 +14,13 @@ include_once "form.php";
 </head>
 <body>
     <form action="./" method="post">
-        <h3>Форма пользователя</h3>
-        <input type="text" tabindex="1" name="name" placeholder="Имя" minlength="5" maxlength="30">
-        <input type="text" tabindex="2" name="surname" placeholder="Фамилия" minlength="5" maxlength="30">
-        <input type="text" tabindex="3" name="login" placeholder="Логин" minlength="5" maxlength="30">
-        <input type="password" tabindex="4" name="pass" placeholder="Пароль" minlength="8" maxlength="30">
+        <h3>Регистрация</h3>
+        <input type="text" tabindex="1" name="name" placeholder="Имя">
+        <input type="text" tabindex="2" name="surname" placeholder="Фамилия">
+        <input type="text" tabindex="3" name="email" placeholder="Email" >
+        <input type="text" tabindex="3" name="age" placeholder="Возраст" >
+        <input type="password" tabindex="4" name="pass" placeholder="Пароль" >
+        <input type="password" tabindex="4" name="pass2" placeholder="Повторный пароль" >
         <button type="submit" tabindex="5">Отправить</button>
     </form>
 </body>
