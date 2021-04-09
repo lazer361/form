@@ -1,15 +1,4 @@
 <?php
-$conn_str = "host=127.0.0.1 port=5433 dbname=test1 user=postgres password=pass";
-$db = pg_connect($conn_str);
-
-if(!$db){
-    $errormessage = pg_last_error();
-    echo "Error 0: " . $errormessage;
-    exit();
-}else {
-   // echo 'bd ok';
-}
-
 function valid($post) {
 
     if(!empty($post)) {
@@ -86,7 +75,6 @@ function valid($post) {
             }
 
 
-
             if(strlen($pass) < $min_long["pass"]) {
                 array_push($error_messages, "Поле Пароль слишком короткий !");
             }
@@ -103,10 +91,23 @@ function valid($post) {
             if($pass < $pass2) {
                 array_push($error_messages, "Пароли не совпадают !");
             }
-            echo "ok";
-            $hash = md5($pass);
-            $query = "INSERT INTO users (name, last_name, email, work_id, age, pass) VALUES ($name, $surname, $email, 1, $age, $hash)";
-            $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error());
+
+            try {
+                $dbh = new PDO('pgsql:host=127.0.0.1;port=5433;dbname=test1;', 'postgres', 'pass');
+                $sql = "select * from users";
+                $wID = 0;
+
+                foreach ($dbh->query($sql) as $row){
+                    if($row['email'] == $email) {
+                        array_push($error_messages, "Email уже зарегистрирован !");
+                        break;
+                    }
+                    if($row['work_id'] >= $wID){ $wID++; }
+                }
+                $dbh = null;
+            } catch (PDOException $e) {
+                die('Подключение не удалось: ' . $e->getMessage());
+            }
 
             if(!empty($error_messages)){ ?>
                 <div class="output"><?
@@ -118,6 +119,18 @@ function valid($post) {
                 </div>
                 <?
             }else {?>
+                <?php
+                $hash = md5($pass);
+                if($wID == 0) {$wID = 1;}
+                try {
+                    $dbh = new PDO('pgsql:host=127.0.0.1;port=5433;dbname=test1;', 'postgres', 'pass');
+                    $sql_reg = "INSERT INTO users (name, last_name, email, work_id, age, pass) VALUES ('$name', '$surname', '$email', '$wID', '$age', '$hash')";
+                    $dbh->query($sql_reg);
+                    $dbh = null;
+                } catch (PDOException $e) {
+                    die('Подключение не удалось: ' . $e->getMessage());
+                }
+                ?>
 
                 <div class="output">
                     <h4>Вы успешно Зарегистрировались</h4>
@@ -136,7 +149,7 @@ function valid($post) {
         <?php }
    }
 }
-pg_close($db);
- ?>
+
+?>
 
 
